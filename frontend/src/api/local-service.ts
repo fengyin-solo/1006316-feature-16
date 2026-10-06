@@ -40,6 +40,14 @@ export function runAction(key: string, id: number, action: string): ActionResult
     return { ok: false, message: `没有找到编号为 ${id} 的${meta.entity}` }
   }
   const current = String(rows[index].status)
+  // 渗漏返工回写的检修待办由渗漏处置单的复核动作驱动，通用动作不得直接改其状态，
+  // 否则会破坏「检修待复核条数 = 安防需整改条数」的联动不变量。
+  if (key === 'maintenance' && rows[index].来源 === '渗漏联动') {
+    return { ok: false, message: `该待办由渗漏处置单 ${rows[index].联动处置单} 联动生成，请在渗漏水处置页完成复核闭环` }
+  }
+  if (key === 'access' && rows[index].来源 === '渗漏联动') {
+    return { ok: false, message: `该整改点由渗漏处置单 ${rows[index].联动处置单} 联动生成，随处置单复核结果自动开闭` }
+  }
   if (current === target) {
     return { ok: false, message: `${meta.entity}已经是「${target}」，不用重复操作` }
   }

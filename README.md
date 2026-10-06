@@ -68,4 +68,8 @@ npm run build
 - 字段、状态、动作与流转目标集中在 `frontend/src/data/modules.ts`；示例数据在
   `frontend/src/data/seed.ts`。
 - 状态流转只允许在 `local-service.ts` 里改，页面组件不做业务判断。
-- 想回到初始数据：清掉浏览器里 `urban-utility-tunnel:entries` 这一项，或调用 `resetModule(模块)`。
+- 渗漏水处置另有一套强口径（空态待测/中断、派工空值拦截、返工必填原因、检修待办与安防台账
+  联动对账、同点判重、历史补录、跨单位只读），规则说明书在
+  [`docs/渗漏水处置边界规则.md`](docs/渗漏水处置边界规则.md)，可执行实现集中在
+  `frontend/src/api/leak-service.ts`，页面在 `frontend/src/views/leak/index.vue`。
+- 想回到初始数据：清掉浏览器里 `urban-utility-tunnel:entries:v2` 这一项，或调用 `resetModule(模块)`。
